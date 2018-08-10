@@ -6,20 +6,20 @@ import eu.timepit.statuspage.core._
 import org.scalatest.{FunSuite, Matchers}
 
 class CoreTest extends FunSuite with Matchers {
-  test("asPlainText 1") {
+  test("rootAsPlainText 1") {
     rootAsPlainText(Root(Nil, Overall(Ok))) shouldBe "status: OK"
   }
 
-  test("asPlainText 2") {
+  test("rootAsPlainText 2") {
     rootAsPlainText(Root(Nil, Overall(Error(None)))) shouldBe "status: ERROR"
   }
 
-  test("asPlainText 3") {
+  test("rootAsPlainText 3") {
     val msg = "Database is not accessible"
     rootAsPlainText(Root(Nil, Overall(Error(Some(msg))))) shouldBe s"status: ERROR $msg"
   }
 
-  test("asPlainText 4") {
+  test("rootAsPlainText 4") {
     val msg = "Database is not accessible"
     rootAsPlainText(Root(List(Entry("database_status", Ok)), Overall(Ok))) shouldBe
       s"""|status: OK
@@ -27,7 +27,7 @@ class CoreTest extends FunSuite with Matchers {
        """.stripMargin.trim
   }
 
-  test("asPlainText 5") {
+  test("rootAsPlainText 5") {
     rootAsPlainText(Root(
       List(Entry("database_status", Ok), Entry("elastic_search_status", Ok)),
       Overall(Ok))) shouldBe
@@ -37,7 +37,7 @@ class CoreTest extends FunSuite with Matchers {
        """.stripMargin.trim
   }
 
-  test("asPlainText 6") {
+  test("rootAsPlainText 6") {
     rootAsPlainText(
       Root(
         List(
@@ -53,7 +53,7 @@ class CoreTest extends FunSuite with Matchers {
        """.stripMargin.trim
   }
 
-  test("asPlainText 7") {
+  test("rootAsPlainText 7") {
     rootAsPlainText(
       Root(
         List(
