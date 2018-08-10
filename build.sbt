@@ -1,6 +1,12 @@
 import sbtcrossproject.CrossPlugin.autoImport.crossProject
 import sbtcrossproject.CrossType
 
+/// variables
+
+val projectName = "status-page"
+
+/// projects
+
 lazy val root = project
   .in(file("."))
   .aggregate(catsJVM)
@@ -50,5 +56,29 @@ lazy val compileSettings = Def.settings(
     "-language:higherKinds",
     "-Ypartial-unification",
     "-Ywarn-unused:imports"
+  )
+)
+
+lazy val metadataSettings = Def.settings(
+  name := projectName,
+  startYear := Some(2018)
+)
+
+/// commands
+
+def addCommandsAlias(name: String, cmds: Seq[String]) =
+  addCommandAlias(name, cmds.mkString(";", ";", ""))
+
+addCommandsAlias(
+  "validate",
+  Seq(
+    "clean",
+    "scalafmtCheck",
+    "scalafmtSbtCheck",
+    "test:scalafmtCheck",
+    "test",
+    "doc",
+    "package",
+    "packageSrc"
   )
 )
