@@ -13,11 +13,11 @@ object cats {
 
   final class Make[F[_], E](show: E => String)(implicit F: ApplicativeError[F, E]) {
 
-    def root(items: List[F[Item]]): F[Root] =
-      items.sequence.map(xs => Root(xs, overallOf(xs)))
+    def root(items: F[Item]*): F[Root] =
+      items.toList.sequence.map(xs => Root(xs, overallOf(xs)))
 
-    def group(name: String, items: List[F[Item]]): F[Item] =
-      items.sequence.map(xs => Group(name, xs, overallOf(xs)))
+    def group(name: String, items: F[Item]*): F[Item] =
+      items.toList.sequence.map(xs => Group(name, xs, overallOf(xs)))
 
     def entry(name: String, f: F[Option[String]]): F[Item] =
       result(f).map(result => Entry(name, result))

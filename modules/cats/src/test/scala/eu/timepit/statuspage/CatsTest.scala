@@ -10,7 +10,7 @@ class CatsTest extends FunSuite with Matchers {
   final val mk = new Make[F, String](identity)
 
   test("mk.root 1") {
-    mk.root(List(mk.entry("database", Right(None)), mk.entry("network", Right(None))))
+    mk.root(mk.entry("database", Right(None)), mk.entry("network", Right(None)))
       .map(rootAsPlainText)
       .getOrElse("") shouldBe
       s"""|status: OK
@@ -21,7 +21,7 @@ class CatsTest extends FunSuite with Matchers {
 
   test("mk.root 2") {
     val msg = "Database is not accessible"
-    mk.root(List(mk.entry("database", Left(msg)), mk.entry("network", Right(None))))
+    mk.root(mk.entry("database", Left(msg)), mk.entry("network", Right(None)))
       .map(rootAsPlainText)
       .getOrElse("") shouldBe
       s"""|status: ERROR
@@ -32,12 +32,10 @@ class CatsTest extends FunSuite with Matchers {
 
   test("mk.root 3") {
     mk.root(
-        List(
-          mk.group(
-            "database",
-            List(
-              mk.entry("customers", Right(Some("378"))),
-              mk.entry("items", Right(Some("8934748")))))))
+        mk.group(
+          "database",
+          mk.entry("customers", Right(Some("378"))),
+          mk.entry("items", Right(Some("8934748")))))
       .map(rootAsPlainText)
       .getOrElse("") shouldBe
       s"""|status: OK
@@ -49,13 +47,11 @@ class CatsTest extends FunSuite with Matchers {
 
   test("mk.root 4") {
     mk.root(
-        List(
-          mk.group(
-            "database",
-            List(
-              mk.entry("customers", Right(Some("378"))),
-              mk.entry("items", Right(Some("8934748"))))),
-          mk.entry("network", Left("timeout"))))
+        mk.group(
+          "database",
+          mk.entry("customers", Right(Some("378"))),
+          mk.entry("items", Right(Some("8934748")))),
+        mk.entry("network", Left("timeout")))
       .map(rootAsPlainText)
       .getOrElse("") shouldBe
       s"""|status: ERROR
