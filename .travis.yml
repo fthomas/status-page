@@ -5,8 +5,6 @@ scala:
 - 2.12.6
 before_install:
 - git fetch --tags
-install:
-- pip install --user codecov
 cache:
   directories:
   - "$HOME/.ivy2/cache"
@@ -18,8 +16,10 @@ stages:
 jobs:
   include:
   - stage: test
+    install:
+    - pip install --user codecov
     script: sbt ++$TRAVIS_SCALA_VERSION validate
+    after_success:
+    - codecov
   - stage: release
     script: sbt ci-release
-after_success:
-- codecov
