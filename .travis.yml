@@ -1,16 +1,25 @@
 language: scala
 jdk:
 - oraclejdk8
+scala:
+- 2.12.6
+before_install:
+- git fetch --tags
 install:
 - pip install --user codecov
 cache:
   directories:
   - "$HOME/.ivy2/cache"
   - "$HOME/.sbt/boot/"
-script:
-- sbt ++$TRAVIS_SCALA_VERSION validate
+stages:
+- name: test
+- name: release
+  if: (branch = master AND type = push) OR (tag IS present)
+jobs:
+  include:
+  - stage: test
+    script: sbt ++$TRAVIS_SCALA_VERSION validate
+  - stage: release
+    script: sbt ci-release
 after_success:
 - codecov
-matrix:
-  include:
-  - scala: 2.12.6

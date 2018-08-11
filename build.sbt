@@ -6,8 +6,6 @@ import sbtcrossproject.CrossType
 val groupId = "eu.timepit"
 val projectName = "status-page"
 val gitHubOwner = "fthomas"
-val gitPubUrl = s"https://github.com/$gitHubOwner/$projectName.git"
-val gitDevUrl = s"git@github.com:$gitHubOwner/$projectName.git"
 
 /// projects
 
@@ -73,7 +71,7 @@ lazy val metadataSettings = Def.settings(
   organization := groupId,
   homepage := Some(url(s"https://github.com/$gitHubOwner/$projectName")),
   startYear := Some(2018),
-  scmInfo := Some(ScmInfo(homepage.value.get, s"scm:git:$gitPubUrl", Some(s"scm:git:$gitDevUrl"))),
+  licenses := List("Apache-2.0" -> url("http://www.apache.org/licenses/LICENSE-2.0")),
   developers := List(
     Developer(
       id = "fthomas",
