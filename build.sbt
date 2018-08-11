@@ -1,4 +1,5 @@
 import sbtcrossproject.CrossPlugin.autoImport.crossProject
+import sbtcrossproject.CrossProject
 import sbtcrossproject.CrossType
 
 /// variables
@@ -6,6 +7,11 @@ import sbtcrossproject.CrossType
 val groupId = "eu.timepit"
 val projectName = "status-page"
 val gitHubOwner = "fthomas"
+
+val moduleCrossPlatformMatrix = Map(
+  "cats" -> List(JVMPlatform),
+  "core" -> List(JVMPlatform)
+)
 
 /// projects
 
@@ -16,12 +22,8 @@ lazy val root = project
   .settings(commonSettings)
   .settings(noPublishSettings)
 
-lazy val cats = crossProject(JVMPlatform)
-  .crossType(CrossType.Pure)
-  .withoutSuffixFor(JVMPlatform)
-  .in(file("modules/cats"))
+lazy val cats = myCrossProject("cats")
   .dependsOn(core)
-  .settings(commonSettings)
   .settings(
     libraryDependencies ++= Seq(
       Dependencies.catsCore,
@@ -31,11 +33,7 @@ lazy val cats = crossProject(JVMPlatform)
 
 lazy val catsJVM = cats.jvm
 
-lazy val core = crossProject(JVMPlatform)
-  .crossType(CrossType.Pure)
-  .withoutSuffixFor(JVMPlatform)
-  .in(file("modules/core"))
-  .settings(commonSettings)
+lazy val core = myCrossProject("core")
   .settings(
     libraryDependencies ++= Seq(
       Dependencies.scalatest % Test
@@ -46,8 +44,17 @@ lazy val coreJVM = core.jvm
 
 /// settings
 
+def myCrossProject(name: String): CrossProject =
+  CrossProject(name, file(name))(moduleCrossPlatformMatrix(name): _*)
+    .crossType(CrossType.Pure)
+    .withoutSuffixFor(JVMPlatform)
+    .in(file(s"modules/$name"))
+    .settings(moduleName := s"$projectName-$name")
+    .settings(commonSettings)
+
 lazy val commonSettings = Def.settings(
-  compileSettings
+  compileSettings,
+  metadataSettings
 )
 
 lazy val compileSettings = Def.settings(
