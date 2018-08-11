@@ -1,3 +1,4 @@
+import com.typesafe.sbt.SbtGit.GitKeys
 import sbtcrossproject.CrossPlugin.autoImport.crossProject
 import sbtcrossproject.CrossProject
 import sbtcrossproject.CrossType
@@ -54,7 +55,8 @@ def myCrossProject(name: String): CrossProject =
 
 lazy val commonSettings = Def.settings(
   compileSettings,
-  metadataSettings
+  metadataSettings,
+  scaladocSettings
 )
 
 lazy val compileSettings = Def.settings(
@@ -89,6 +91,20 @@ lazy val metadataSettings = Def.settings(
 
 lazy val noPublishSettings = Def.settings(
   skip in publish := true
+)
+
+lazy val scaladocSettings = Def.settings(
+  Compile / doc / scalacOptions ++= {
+    val tree =
+      if (isSnapshot.value) GitKeys.gitHeadCommit.value
+      else GitKeys.gitDescribedVersion.value.map("v" + _)
+    Seq(
+      "-doc-source-url",
+      s"${scmInfo.value.get.browseUrl}/blob/${tree.get}€{FILE_PATH}.scala",
+      "-sourcepath",
+      (LocalRootProject / baseDirectory).value.getAbsolutePath
+    )
+  }
 )
 
 /// commands
