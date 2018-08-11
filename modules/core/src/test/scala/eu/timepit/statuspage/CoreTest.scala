@@ -20,7 +20,6 @@ class CoreTest extends FunSuite with Matchers {
   }
 
   test("rootAsPlainText 4") {
-    val msg = "Database is not accessible"
     rootAsPlainText(Root(List(Entry("database_status", Ok)), Overall(Ok))) shouldBe
       s"""|status: OK
           |database_status: OK
