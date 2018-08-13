@@ -23,19 +23,16 @@ import scala.annotation.tailrec
 
 object core {
 
-  final case class Root(items: List[Item], overall: Overall)
+  /// data structures
 
-  final case class Overall(result: Result)
+  final case class Root(items: List[Item], result: Result)
 
   sealed trait Item extends Product with Serializable {
     def result: Result
   }
 
   object Item {
-    final case class Group(name: String, items: List[Item], overall: Overall) extends Item {
-      override def result: Result = overall.result
-    }
-
+    final case class Group(name: String, items: List[Item], result: Result) extends Item
     final case class Entry(name: String, result: Result) extends Item
   }
 
@@ -47,11 +44,13 @@ object core {
     final case class Error(maybeMessage: Option[String]) extends Result
   }
 
-  def rootAsPlainText(root: Root): String =
-    (overallAsPlainText(root.overall) :: root.items.map(itemAsPlainText)).mkString("\n")
+  /// functions
 
-  private def overallAsPlainText(overall: Overall): String =
-    s"status: ${resultAsPlainText(overall.result)}"
+  def rootAsPlainText(root: Root): String =
+    (overallAsPlainText(root.result) :: root.items.map(itemAsPlainText)).mkString("\n")
+
+  private def overallAsPlainText(overall: Result): String =
+    s"status: ${resultAsPlainText(overall)}"
 
   private def itemAsPlainText(item: Item): String =
     item match {
@@ -70,7 +69,7 @@ object core {
       case Error(maybeMessage)   => "ERROR" + maybeMessage.fold("")(msg => s" $msg")
     }
 
-  private[statuspage] def overallOf(items: List[Item]): Overall = {
+  private[statuspage] def overallOf(items: List[Item]): Result = {
     @tailrec
     def loop(items: List[Item], acc: Result): Result =
       items match {
@@ -82,7 +81,7 @@ object core {
           }
         case Nil => acc
       }
-    Overall(loop(items, Ok))
+    loop(items, Ok)
   }
 
 }
