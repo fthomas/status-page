@@ -11,7 +11,7 @@ import eu.timepit.statuspage.core.{overallOf, Item, Result, Root}
 
 object cats {
 
-  final class Make[F[_], E](show: E => String)(implicit F: ApplicativeError[F, E]) {
+  final class Make[F[_], E](val show: E => String)(implicit F: ApplicativeError[F, E]) {
 
     def root(items: F[Item]*): F[Root] =
       items.toList.sequence.map(xs => Root(xs, overallOf(xs)))
@@ -22,8 +22,11 @@ object cats {
     def entry(name: String, f: F[Option[String]]): F[Item] =
       result(f).map(result => Entry(name, result))
 
-    private def result(f: F[Option[String]]): F[Result] =
-      f.attempt.map {
+    def result(f: F[Option[String]]): F[Result] =
+      f.attempt.map(resultFromEither)
+
+    def resultFromEither(either: Either[E, Option[String]]): Result =
+      either match {
         case Right(None)          => Ok
         case Right(Some(message)) => Info(message)
         case Left(e)              => Error(Some(show(e)))
