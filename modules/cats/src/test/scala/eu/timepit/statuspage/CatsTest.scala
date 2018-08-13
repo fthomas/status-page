@@ -11,7 +11,7 @@ class CatsTest extends FunSuite with Matchers {
   final val mk = new Make[F, String](identity)
 
   test("mk.root 1") {
-    mk.root(mk.entry("database", Right(None)), mk.entry("network", Right(None)))
+    mk.root(mk.entryOk("database", Right(())), mk.entryOk("network", Right(())))
       .map(rootAsPlainText)
       .getOrElse("") shouldBe
       s"""|status: OK
@@ -22,7 +22,7 @@ class CatsTest extends FunSuite with Matchers {
 
   test("mk.root 2") {
     val msg = "Database is not accessible"
-    mk.root(mk.entry("database", Left(msg)), mk.entry("network", Right(None)))
+    mk.root(mk.entryOk("database", Left(msg)), mk.entryOk("network", Right(())))
       .map(rootAsPlainText)
       .getOrElse("") shouldBe
       s"""|status: ERROR
@@ -35,8 +35,8 @@ class CatsTest extends FunSuite with Matchers {
     mk.root(
         mk.group(
           "database",
-          mk.entry("customers", Right(Some("378"))),
-          mk.entry("items", Right(Some("8934748")))))
+          mk.entryInfo("customers", Right("378")),
+          mk.entryInfo("items", Right("8934748"))))
       .map(rootAsPlainText)
       .getOrElse("") shouldBe
       s"""|status: OK
@@ -50,9 +50,9 @@ class CatsTest extends FunSuite with Matchers {
     mk.root(
         mk.group(
           "database",
-          mk.entry("customers", Right(Some("378"))),
-          mk.entry("items", Right(Some("8934748")))),
-        mk.entry("network", Left("timeout")))
+          mk.entryInfo("customers", Right("378")),
+          mk.entryInfo("items", Right("8934748"))),
+        mk.entryOk("network", Left("timeout")))
       .map(rootAsPlainText)
       .getOrElse("") shouldBe
       s"""|status: ERROR
@@ -64,7 +64,7 @@ class CatsTest extends FunSuite with Matchers {
   }
 
   test("mk.root 5") {
-    mk.root(mk.entryF("database_items", Right(8934748))(i =>
+    mk.root(mk.entry("database_items", Right(8934748))(i =>
         if (i > 100) Info(i.toString) else Error(Some(i.toString))))
       .map(rootAsPlainText)
       .getOrElse("") shouldBe
@@ -74,7 +74,7 @@ class CatsTest extends FunSuite with Matchers {
   }
 
   test("mk.root 6") {
-    mk.root(mk.entryF("database_items", Right(42))(i =>
+    mk.root(mk.entry("database_items", Right(42))(i =>
         if (i > 100) Info(i.toString) else Error(Some(i.toString))))
       .map(rootAsPlainText)
       .getOrElse("") shouldBe

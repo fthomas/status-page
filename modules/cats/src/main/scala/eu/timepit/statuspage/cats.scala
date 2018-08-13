@@ -11,7 +11,7 @@ import eu.timepit.statuspage.core.{overallOf, Item, Result, Root}
 
 object cats {
 
-  final class Make[F[_], E](val show: E => String)(implicit F: ApplicativeError[F, E]) {
+  final class Make[F[_], E](val showError: E => String)(implicit F: ApplicativeError[F, E]) {
 
     def root(items: F[Item]*): F[Root] =
       items.toList.sequence.map(xs => Root(xs, overallOf(xs)))
@@ -19,26 +19,20 @@ object cats {
     def group(name: String, items: F[Item]*): F[Item] =
       items.toList.sequence.map(xs => Group(name, xs, overallOf(xs)))
 
-    def entry(name: String, f: F[Option[String]]): F[Item] =
-      result(f).map(result => Entry(name, result))
+    def entry[A](name: String, fa: F[A])(f: A => Result): F[Item] =
+      fa.attempt.map(ea => Entry(name, resultFromEither(ea)(f)))
 
-    def entryF[A](name: String, fa: F[A])(f: A => Result): F[Item] =
-      fa.attempt.map(ea => Entry(name, resultFromEitherF(ea)(f)))
+    def entryOk[A](name: String, fa: F[A]): F[Item] =
+      entry(name, fa)(_ => Ok)
 
-    def result(f: F[Option[String]]): F[Result] =
-      f.attempt.map(resultFromEither)
+    def entryInfo(name: String, fmsg: F[String]): F[Item] =
+      entry(name, fmsg)(msg => Info(msg))
 
-    def resultFromEither(either: Either[E, Option[String]]): Result =
-      resultFromEitherF(either) {
-        case None          => Ok
-        case Some(message) => Info(message)
-      }
-
-    def resultFromEitherF[A](either: Either[E, A])(f: A => Result): Result =
+    def resultFromEither[A](either: Either[E, A])(f: A => Result): Result =
       either.fold(resultFromError, f)
 
     def resultFromError(e: E): Result =
-      Error(Some(show(e)))
+      Error(Some(showError(e)))
 
   }
 
