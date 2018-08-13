@@ -64,8 +64,8 @@ class CatsTest extends FunSuite with Matchers {
   }
 
   test("mk.root 5") {
-    mk.root(
-      mk.entryF("database_items", Right(8934748))(i => if (i > 100) Info(i.toString) else Error(Some(i.toString))))
+    mk.root(mk.entryF("database_items", Right(8934748))(i =>
+        if (i > 100) Info(i.toString) else Error(Some(i.toString))))
       .map(rootAsPlainText)
       .getOrElse("") shouldBe
       s"""|status: OK
@@ -74,8 +74,8 @@ class CatsTest extends FunSuite with Matchers {
   }
 
   test("mk.root 6") {
-    mk.root(
-      mk.entryF("database_items", Right(42))(i => if (i > 100) Info(i.toString) else Error(Some(i.toString))))
+    mk.root(mk.entryF("database_items", Right(42))(i =>
+        if (i > 100) Info(i.toString) else Error(Some(i.toString))))
       .map(rootAsPlainText)
       .getOrElse("") shouldBe
       s"""|status: ERROR
