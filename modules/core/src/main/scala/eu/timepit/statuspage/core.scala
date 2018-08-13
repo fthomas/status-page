@@ -17,7 +17,7 @@
 package eu.timepit.statuspage
 
 import eu.timepit.statuspage.core.Item.{Entry, Group}
-import eu.timepit.statuspage.core.Result.{Error, Info, Ok}
+import eu.timepit.statuspage.core.Result.{Error, Info, Ok, Warning}
 
 import scala.annotation.tailrec
 
@@ -43,6 +43,7 @@ object core {
   object Result {
     final case object Ok extends Result
     final case class Info(message: String) extends Result
+    final case class Warning(maybeMessage: Option[String]) extends Result
     final case class Error(maybeMessage: Option[String]) extends Result
   }
 
@@ -63,9 +64,10 @@ object core {
 
   private def resultAsPlainText(result: Result): String =
     result match {
-      case Ok                  => "OK"
-      case Info(message)       => message
-      case Error(maybeMessage) => "ERROR" + maybeMessage.fold("")(s => s" $s")
+      case Ok                    => "OK"
+      case Info(message)         => message
+      case Warning(maybeMessage) => "WARNING" + maybeMessage.fold("")(msg => s" $msg")
+      case Error(maybeMessage)   => "ERROR" + maybeMessage.fold("")(msg => s" $msg")
     }
 
   private[statuspage] def overallOf(items: List[Item]): Overall = {
@@ -74,8 +76,9 @@ object core {
       items match {
         case x :: xs =>
           x.result match {
-            case Error(_) => Error(None)
-            case _        => loop(xs, acc)
+            case Error(_)   => Error(None)
+            case Warning(_) => loop(xs, Warning(None))
+            case _          => loop(xs, acc)
           }
         case Nil => acc
       }
