@@ -1,5 +1,4 @@
 import com.typesafe.sbt.SbtGit.GitKeys
-import sbtcrossproject.CrossPlugin.autoImport.crossProject
 import sbtcrossproject.CrossProject
 import sbtcrossproject.CrossType
 
@@ -60,20 +59,7 @@ lazy val commonSettings = Def.settings(
 )
 
 lazy val compileSettings = Def.settings(
-  scalacOptions ++= Seq(
-    "-deprecation",
-    "-encoding",
-    "UTF-8",
-    "-feature",
-    "-language:higherKinds",
-    "-unchecked",
-    "-Xfatal-warnings",
-    "-Xfuture",
-    "-Xlint",
-    "-Ypartial-unification",
-    "-Ywarn-value-discard"
   )
-)
 
 lazy val metadataSettings = Def.settings(
   name := projectName,
