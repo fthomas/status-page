@@ -26,11 +26,16 @@ object cats {
       f.attempt.map(resultFromEither)
 
     def resultFromEither(either: Either[E, Option[String]]): Result =
-      either match {
-        case Right(None)          => Ok
-        case Right(Some(message)) => Info(message)
-        case Left(e)              => Error(Some(show(e)))
+      resultFromEitherF(either) {
+        case None          => Ok
+        case Some(message) => Info(message)
       }
+
+    def resultFromEitherF[A](either: Either[E, A])(f: A => Result): Result =
+      either.fold(resultFromError, f)
+
+    def resultFromError(e: E): Result =
+      Error(Some(show(e)))
 
   }
 
