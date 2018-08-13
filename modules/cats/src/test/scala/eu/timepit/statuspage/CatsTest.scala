@@ -2,6 +2,7 @@ package eu.timepit.statuspage
 
 import _root_.cats.instances.either._
 import eu.timepit.statuspage.cats._
+import eu.timepit.statuspage.core.Result.{Error, Info}
 import eu.timepit.statuspage.core.rootAsPlainText
 import org.scalatest.{FunSuite, Matchers}
 
@@ -59,6 +60,26 @@ class CatsTest extends FunSuite with Matchers {
           |database_customers: 378
           |database_items: 8934748
           |network: ERROR timeout
+       """.stripMargin.trim
+  }
+
+  test("mk.root 5") {
+    mk.root(
+      mk.entryF("database_items", Right(8934748))(i => if (i > 100) Info(i.toString) else Error(Some(i.toString))))
+      .map(rootAsPlainText)
+      .getOrElse("") shouldBe
+      s"""|status: OK
+          |database_items: 8934748
+       """.stripMargin.trim
+  }
+
+  test("mk.root 6") {
+    mk.root(
+      mk.entryF("database_items", Right(42))(i => if (i > 100) Info(i.toString) else Error(Some(i.toString))))
+      .map(rootAsPlainText)
+      .getOrElse("") shouldBe
+      s"""|status: ERROR
+          |database_items: ERROR 42
        """.stripMargin.trim
   }
 }

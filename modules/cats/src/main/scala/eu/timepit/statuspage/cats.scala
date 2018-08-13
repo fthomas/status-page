@@ -22,6 +22,9 @@ object cats {
     def entry(name: String, f: F[Option[String]]): F[Item] =
       result(f).map(result => Entry(name, result))
 
+    def entryF[A](name: String, fa: F[A])(f: A => Result): F[Item] =
+      fa.attempt.map(ea => Entry(name, resultFromEitherF(ea)(f)))
+
     def result(f: F[Option[String]]): F[Result] =
       f.attempt.map(resultFromEither)
 
