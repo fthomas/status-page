@@ -48,7 +48,7 @@ object cats {
       either.fold(resultFromError, f)
 
     def resultFromError(e: E): Result =
-      Error(Some(showError(e)))
+      Error.withMessage(showError(e))
 
   }
 

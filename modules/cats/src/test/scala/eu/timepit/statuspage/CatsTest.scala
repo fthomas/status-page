@@ -11,7 +11,7 @@ class CatsTest extends FunSuite with Matchers {
   final val mk = new Make[F, String](identity)
 
   test("mk.root 1") {
-    mk.root(mk.entryOk("database", Right(())), mk.entryOk("network", Right(())))
+    mk.root(mk.entryOk("database", Right(0)), mk.entryOk("network", Right(0)))
       .map(rootAsPlainText)
       .getOrElse("") shouldBe
       s"""|status: OK
@@ -22,7 +22,7 @@ class CatsTest extends FunSuite with Matchers {
 
   test("mk.root 2") {
     val msg = "Database is not accessible"
-    mk.root(mk.entryOk("database", Left(msg)), mk.entryOk("network", Right(())))
+    mk.root(mk.entryOk("database", Left(msg)), mk.entryOk("network", Right(0)))
       .map(rootAsPlainText)
       .getOrElse("") shouldBe
       s"""|status: ERROR

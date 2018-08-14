@@ -42,6 +42,14 @@ object core {
     final case class Info(message: String) extends Result
     final case class Warning(maybeMessage: Option[String]) extends Result
     final case class Error(maybeMessage: Option[String]) extends Result
+
+    object Warning {
+      def withMessage(message: String): Warning = Warning(Some(message))
+    }
+
+    object Error {
+      def withMessage(message: String): Error = Error(Some(message))
+    }
   }
 
   /// functions
@@ -65,9 +73,12 @@ object core {
     result match {
       case Ok                    => "OK"
       case Info(message)         => message
-      case Warning(maybeMessage) => "WARNING" + maybeMessage.fold("")(msg => s" $msg")
-      case Error(maybeMessage)   => "ERROR" + maybeMessage.fold("")(msg => s" $msg")
+      case Warning(maybeMessage) => appendWithSpace("WARNING", maybeMessage)
+      case Error(maybeMessage)   => appendWithSpace("ERROR", maybeMessage)
     }
+
+  private def appendWithSpace(fst: String, maybeSnd: Option[String]): String =
+    maybeSnd.fold(fst)(snd => fst + " " + snd)
 
   private[statuspage] def overallOf(items: List[Item]): Result = {
     @tailrec
