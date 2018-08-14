@@ -74,8 +74,8 @@ class CoreTest extends FunSuite with Matchers {
   test("rootAsPlainText 9") {
     val items = List(
       Entry("database1", Ok),
-      Entry("database2", Warning(Some("slow"))),
-      Entry("database3", Error(Some("unavailable"))))
+      Entry("database2", Warning.withMessage("slow")),
+      Entry("database3", Error.withMessage("unavailable")))
     rootAsPlainText(Root(items, overallOf(items))) shouldBe
       s"""|status: ERROR
           |database1: OK
