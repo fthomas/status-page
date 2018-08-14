@@ -47,6 +47,7 @@ lazy val readme = project
   .in(file("modules/readme"))
   .enablePlugins(TutPlugin)
   .dependsOn(catsJVM, coreJVM)
+  .settings(commonSettings)
   .settings(noPublishSettings)
   .settings(
     tutSourceDirectory := baseDirectory.value,
