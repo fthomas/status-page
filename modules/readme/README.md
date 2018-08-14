@@ -10,9 +10,8 @@ status information in a straightforward way.
 
 ## Quick example
 
-```scala
-scala> 1 + 1
-res0: Int = 2
+```tut
+1 + 1
 ```
 
 ## Using status-page

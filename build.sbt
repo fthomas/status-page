@@ -19,6 +19,7 @@ lazy val root = project
   .in(file("."))
   .aggregate(catsJVM)
   .aggregate(coreJVM)
+  .aggregate(readme)
   .settings(commonSettings)
   .settings(noPublishSettings)
 
@@ -41,6 +42,16 @@ lazy val core = myCrossProject("core")
   )
 
 lazy val coreJVM = core.jvm
+
+lazy val readme = project
+  .in(file("modules/readme"))
+  .enablePlugins(TutPlugin)
+  .dependsOn(catsJVM, coreJVM)
+  .settings(noPublishSettings)
+  .settings(
+    tutSourceDirectory := baseDirectory.value,
+    tutTargetDirectory := (LocalRootProject / baseDirectory).value
+  )
 
 /// settings
 
@@ -111,6 +122,7 @@ addCommandsAlias(
     "test",
     "coverageReport",
     "doc",
+    "readme/tut",
     "package",
     "packageSrc"
   )
