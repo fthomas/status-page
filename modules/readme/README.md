@@ -27,18 +27,18 @@ val sparkNode2: IO[Unit] = IO.raiseError(new Exception("unreachable"))
 ```tut:book
 val mk = new Make[IO, Throwable](_.getMessage)
 val root = mk.root(
-    mk.entryInfo("uptime", uptime),
-    mk.group(
-      "database",
-      mk.entryOk("query", dbQuery),
-      mk.entry("items", dbItems)(i => if (i > 50) Ok else Warning.withMessage(i.toString))
-    ),
-    mk.group(
-      "spark_cluster",
-      mk.entryOk("node1", sparkNode1),
-      mk.entryOk("node2", sparkNode2)
-    )
+  mk.entryInfo("uptime", uptime),
+  mk.group(
+    "database",
+    mk.entryOk("query", dbQuery),
+    mk.entry("items", dbItems)(i => if (i > 50) Ok else Warning.withMessage(i.toString))
+  ),
+  mk.group(
+    "spark_cluster",
+    mk.entryOk("node1", sparkNode1),
+    mk.entryOk("node2", sparkNode2)
   )
+)
 root.map(rootAsPlainText).unsafeRunSync()
 ```
 
@@ -50,7 +50,7 @@ If you're using sbt, add the following to your build:
 ```sbt
 libraryDependencies ++= Seq(
   "eu.timepit" %% "status-page-core" % "<latestVersion>",
-  "eu.timepit" %% "status-page-cats" % "<latestVersion>"  // optional
+  "eu.timepit" %% "status-page-cats" % "<latestVersion>"
 )
 ```
 
