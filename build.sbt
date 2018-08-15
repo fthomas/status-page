@@ -50,6 +50,11 @@ lazy val readme = project
   .settings(commonSettings)
   .settings(noPublishSettings)
   .settings(
+    fork in Tut := true,
+    libraryDependencies ++= Seq(
+      Dependencies.catsEffect
+    ),
+    scalacOptions -= "-Ywarn-unused:imports",
     tutSourceDirectory := baseDirectory.value,
     tutTargetDirectory := (LocalRootProject / baseDirectory).value
   )

@@ -11,8 +11,43 @@ status information in a straightforward way.
 ## Quick example
 
 ```scala
-scala> 1 + 1
-res0: Int = 2
+import cats.effect.IO
+import eu.timepit.statuspage.cats.Make
+import eu.timepit.statuspage.core.Result.{Ok, Warning}
+import eu.timepit.statuspage.core.rootAsPlainText
+
+val uptime: IO[String] = IO("up 2 weeks, 3 days, 13 hours, 27 minutes")
+val dbQuery: IO[Unit] = IO(())
+val dbItems: IO[Int] = IO(38)
+val sparkNode1: IO[Unit] = IO(())
+val sparkNode2: IO[Unit] = IO.raiseError(new Exception("unreachable"))
+```
+```scala
+val mk = new Make[IO, Throwable](_.getMessage)
+// mk: eu.timepit.statuspage.cats.Make[cats.effect.IO,Throwable] = eu.timepit.statuspage.cats.Make@5fafd099
+
+mk.root(
+    mk.entryInfo("uptime", uptime),
+    mk.group(
+      "database",
+      mk.entryOk("query", dbQuery),
+      mk.entry("items", dbItems)(i => if (i > 50) Ok else Warning.withMessage(i.toString))
+    ),
+    mk.group(
+      "spark_cluster",
+      mk.entryOk("node1", sparkNode1),
+      mk.entryOk("node2", sparkNode2)
+    )
+  ).map(rootAsPlainText).unsafeRunSync()
+// res0: String =
+// status: ERROR
+// uptime: up 2 weeks, 3 days, 13 hours, 27 minutes
+// database_status: WARNING
+// database_query: OK
+// database_items: WARNING 38
+// spark_cluster_status: ERROR
+// spark_cluster_node1: OK
+// spark_cluster_node2: ERROR unreachable
 ```
 
 ## Using status-page
