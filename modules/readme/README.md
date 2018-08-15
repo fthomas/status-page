@@ -16,6 +16,8 @@ import eu.timepit.statuspage.cats.Make
 import eu.timepit.statuspage.core.Result.{Ok, Warning}
 import eu.timepit.statuspage.core.rootAsPlainText
 
+// We use `IO` values for status checks, but the library supports any
+// type that is an `ApplicativeError`.
 val uptime: IO[String] = IO("up 2 weeks, 3 days, 13 hours, 27 minutes")
 val dbQuery: IO[Unit] = IO(())
 val dbItems: IO[Int] = IO(38)
@@ -24,7 +26,7 @@ val sparkNode2: IO[Unit] = IO.raiseError(new Exception("unreachable"))
 ```
 ```tut:book
 val mk = new Make[IO, Throwable](_.getMessage)
-mk.root(
+val root = mk.root(
     mk.entryInfo("uptime", uptime),
     mk.group(
       "database",
@@ -36,7 +38,8 @@ mk.root(
       mk.entryOk("node1", sparkNode1),
       mk.entryOk("node2", sparkNode2)
     )
-  ).map(rootAsPlainText).unsafeRunSync()
+  )
+root.map(rootAsPlainText).unsafeRunSync()
 ```
 
 ## Using status-page

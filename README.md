@@ -16,6 +16,8 @@ import eu.timepit.statuspage.cats.Make
 import eu.timepit.statuspage.core.Result.{Ok, Warning}
 import eu.timepit.statuspage.core.rootAsPlainText
 
+// We use `IO` values for status checks, but the library supports any
+// type that is an `ApplicativeError`.
 val uptime: IO[String] = IO("up 2 weeks, 3 days, 13 hours, 27 minutes")
 val dbQuery: IO[Unit] = IO(())
 val dbItems: IO[Int] = IO(38)
@@ -24,9 +26,9 @@ val sparkNode2: IO[Unit] = IO.raiseError(new Exception("unreachable"))
 ```
 ```scala
 val mk = new Make[IO, Throwable](_.getMessage)
-// mk: eu.timepit.statuspage.cats.Make[cats.effect.IO,Throwable] = eu.timepit.statuspage.cats.Make@5fafd099
+// mk: eu.timepit.statuspage.cats.Make[cats.effect.IO,Throwable] = eu.timepit.statuspage.cats.Make@644c3590
 
-mk.root(
+val root = mk.root(
     mk.entryInfo("uptime", uptime),
     mk.group(
       "database",
@@ -38,8 +40,11 @@ mk.root(
       mk.entryOk("node1", sparkNode1),
       mk.entryOk("node2", sparkNode2)
     )
-  ).map(rootAsPlainText).unsafeRunSync()
-// res0: String =
+  )
+// root: cats.effect.IO[eu.timepit.statuspage.core.Root] = <function1>
+
+root.map(rootAsPlainText).unsafeRunSync()
+// res2: String =
 // status: ERROR
 // uptime: up 2 weeks, 3 days, 13 hours, 27 minutes
 // database_status: WARNING
