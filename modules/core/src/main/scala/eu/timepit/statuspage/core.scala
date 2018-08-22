@@ -80,15 +80,16 @@ object core {
   private def appendWithSpace(fst: String, maybeSnd: Option[String]): String =
     maybeSnd.fold(fst)(snd => fst + " " + snd)
 
-  private[statuspage] def overallOf(items: List[Item]): Result = {
+  def overallOf(items: List[Item]): Result = {
     @tailrec
     def loop(items: List[Item], acc: Result): Result =
       items match {
         case x :: xs =>
           x.result match {
-            case Error(_)   => Error(None)
+            case Ok         => loop(xs, acc)
+            case Info(_)    => loop(xs, acc)
             case Warning(_) => loop(xs, Warning(None))
-            case _          => loop(xs, acc)
+            case Error(_)   => Error(None)
           }
         case Nil => acc
       }
