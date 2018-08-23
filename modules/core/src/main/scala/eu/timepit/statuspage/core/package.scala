@@ -49,6 +49,13 @@ package object core {
   private def appendWithSpace(fst: String, maybeSnd: Option[String]): String =
     maybeSnd.fold(fst)(snd => fst + " " + snd)
 
+  /** Computes the overall result of `items`.
+    *
+    * Returns
+    *  - `Ok`      if `items` contains no `Warning` or `Error`
+    *  - `Warning` if `items` contains at least one `Warning` and no `Error`
+    *  - `Error`   if `items` contains at least one `Error`
+    */
   def overallOf(items: List[Item]): Result = {
     @tailrec
     def loop(items: List[Item], acc: Result): Result =
