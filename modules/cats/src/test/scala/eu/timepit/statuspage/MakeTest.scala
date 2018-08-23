@@ -6,7 +6,7 @@ import eu.timepit.statuspage.core.Result.{Error, Info}
 import eu.timepit.statuspage.core.rootAsPlainText
 import org.scalatest.{FunSuite, Matchers}
 
-class CatsTest extends FunSuite with Matchers {
+class MakeTest extends FunSuite with Matchers {
   type F[A] = Either[String, A]
   final val mk = new Make[F, String](identity)
 
