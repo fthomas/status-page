@@ -26,7 +26,7 @@ val sparkNode2: IO[Unit] = IO.raiseError(new Exception("unreachable"))
 ```
 ```scala
 val mk = new Make[IO, Throwable](_.getMessage)
-// mk: eu.timepit.statuspage.cats.Make[cats.effect.IO,Throwable] = eu.timepit.statuspage.cats.Make@644c3590
+// mk: eu.timepit.statuspage.cats.Make[cats.effect.IO,Throwable] = eu.timepit.statuspage.cats.Make@4a467ada
 
 val root = mk.root(
   mk.entryInfo("uptime", uptime),

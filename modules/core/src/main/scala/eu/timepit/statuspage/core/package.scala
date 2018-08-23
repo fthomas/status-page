@@ -21,40 +21,7 @@ import eu.timepit.statuspage.core.Result.{Error, Info, Ok, Warning}
 
 import scala.annotation.tailrec
 
-object core {
-
-  /// data structures
-
-  final case class Root(items: List[Item], result: Result)
-
-  sealed trait Item extends Product with Serializable {
-    def result: Result
-  }
-
-  object Item {
-    final case class Group(name: String, items: List[Item], result: Result) extends Item
-    final case class Entry(name: String, result: Result) extends Item
-  }
-
-  sealed trait Result extends Product with Serializable
-  object Result {
-    final case object Ok extends Result
-    final case class Info(message: String) extends Result
-    final case class Warning(maybeMessage: Option[String]) extends Result
-    final case class Error(maybeMessage: Option[String]) extends Result
-
-    object Warning {
-      def withMsg(message: String): Warning = Warning(Some(message))
-      val withoutMsg: Warning = Warning(None)
-    }
-
-    object Error {
-      def withMsg(message: String): Error = Error(Some(message))
-      val withoutMsg: Error = Error(None)
-    }
-  }
-
-  /// functions
+package object core {
 
   def rootAsPlainText(root: Root): String =
     (overallAsPlainText(root.result) :: root.items.map(itemAsPlainText)).mkString("\n")
