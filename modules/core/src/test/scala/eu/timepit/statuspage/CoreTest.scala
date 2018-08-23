@@ -1,6 +1,6 @@
 package eu.timepit.statuspage
 
-import eu.timepit.statuspage.core.Item.{Entry, Group}
+import eu.timepit.statuspage.core.Item.{Entry, Group, JustShow}
 import eu.timepit.statuspage.core.Result.{Error, Info, Ok, Warning}
 import eu.timepit.statuspage.core._
 import org.scalatest.{FunSuite, Matchers}
@@ -81,6 +81,17 @@ class CoreTest extends FunSuite with Matchers {
           |database1: OK
           |database2: WARNING slow
           |database3: ERROR unavailable
+       """.stripMargin.trim
+  }
+
+  test("JustShow") {
+    val items =
+      List(Entry("entry1", Ok), JustShow(Entry("entry2", Error.withoutMsg)), Entry("entry3", Ok))
+    rootAsPlainText(Root(items, overallOf(items))) shouldBe
+      s"""|status: OK
+          |entry1: OK
+          |entry2: ERROR
+          |entry3: OK
        """.stripMargin.trim
   }
 }

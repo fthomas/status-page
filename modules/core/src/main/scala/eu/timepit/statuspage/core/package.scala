@@ -16,7 +16,7 @@
 
 package eu.timepit.statuspage
 
-import eu.timepit.statuspage.core.Item.{Entry, Group}
+import eu.timepit.statuspage.core.Item.{Entry, Group, JustShow}
 import eu.timepit.statuspage.core.Result.{Error, Info, Ok, Warning}
 
 import scala.annotation.tailrec
@@ -36,6 +36,7 @@ package object core {
           .map(name + "_" + _)
           .mkString("\n")
       case Entry(name, result) => s"$name: ${resultAsPlainText(result)}"
+      case JustShow(wrapped)   => itemAsPlainText(wrapped)
     }
 
   private def resultAsPlainText(result: Result): String =

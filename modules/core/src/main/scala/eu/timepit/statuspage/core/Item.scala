@@ -16,6 +16,8 @@
 
 package eu.timepit.statuspage.core
 
+import eu.timepit.statuspage.core.Result.Ok
+
 final case class Root(items: List[Item], result: Result)
 
 sealed trait Item extends Product with Serializable {
@@ -24,5 +26,16 @@ sealed trait Item extends Product with Serializable {
 
 object Item {
   final case class Group(name: String, items: List[Item], result: Result) extends Item
+
   final case class Entry(name: String, result: Result) extends Item
+
+  /** An [[Item]] which wraps another [[Item]] but always returns
+    * [[Result.Ok Ok]] as [[Result]].
+    *
+    * This can be used to render the wrapped [[Item]] but ignoring its status
+    * for the overall result.
+    */
+  final case class JustShow(wrapped: Item) extends Item {
+    override def result: Result = Ok
+  }
 }
