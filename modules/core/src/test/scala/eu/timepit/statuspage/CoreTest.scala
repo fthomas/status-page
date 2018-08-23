@@ -11,12 +11,12 @@ class CoreTest extends FunSuite with Matchers {
   }
 
   test("rootAsPlainText 2") {
-    rootAsPlainText(Root(Nil, Error(None))) shouldBe "status: ERROR"
+    rootAsPlainText(Root(Nil, Error.withoutMsg)) shouldBe "status: ERROR"
   }
 
   test("rootAsPlainText 3") {
     val msg = "Database is not accessible"
-    rootAsPlainText(Root(Nil, Error(Some(msg)))) shouldBe s"status: ERROR $msg"
+    rootAsPlainText(Root(Nil, Error.withMsg(msg))) shouldBe s"status: ERROR $msg"
   }
 
   test("rootAsPlainText 4") {
@@ -63,7 +63,7 @@ class CoreTest extends FunSuite with Matchers {
   }
 
   test("rootAsPlainText 8") {
-    val items = List(Entry("database1", Ok), Entry("database2", Warning(Some("slow"))))
+    val items = List(Entry("database1", Ok), Entry("database2", Warning.withMsg("slow")))
     rootAsPlainText(Root(items, overallOf(items))) shouldBe
       s"""|status: WARNING
           |database1: OK
@@ -74,8 +74,8 @@ class CoreTest extends FunSuite with Matchers {
   test("rootAsPlainText 9") {
     val items = List(
       Entry("database1", Ok),
-      Entry("database2", Warning.withMessage("slow")),
-      Entry("database3", Error.withMessage("unavailable")))
+      Entry("database2", Warning.withMsg("slow")),
+      Entry("database3", Error.withMsg("unavailable")))
     rootAsPlainText(Root(items, overallOf(items))) shouldBe
       s"""|status: ERROR
           |database1: OK

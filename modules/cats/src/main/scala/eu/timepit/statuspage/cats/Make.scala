@@ -46,6 +46,6 @@ final class Make[F[_], E](val showError: E => String)(implicit F: ApplicativeErr
     either.fold(resultFromError, f)
 
   def resultFromError(e: E): Result =
-    Error.withMessage(showError(e))
+    Error.withMsg(showError(e))
 
 }

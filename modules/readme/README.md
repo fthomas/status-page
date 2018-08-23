@@ -31,7 +31,7 @@ val root = mk.root(
   mk.group(
     "database",
     mk.entryOk("query", dbQuery),
-    mk.entry("items", dbItems)(i => if (i > 50) Ok else Warning.withMessage(i.toString))
+    mk.entry("items", dbItems)(i => if (i > 50) Ok else Warning.withMsg(i.toString))
   ),
   mk.group(
     "spark_cluster",

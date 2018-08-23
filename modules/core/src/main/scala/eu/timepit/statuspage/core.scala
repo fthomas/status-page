@@ -44,11 +44,13 @@ object core {
     final case class Error(maybeMessage: Option[String]) extends Result
 
     object Warning {
-      def withMessage(message: String): Warning = Warning(Some(message))
+      def withMsg(message: String): Warning = Warning(Some(message))
+      val withoutMsg: Warning = Warning(None)
     }
 
     object Error {
-      def withMessage(message: String): Error = Error(Some(message))
+      def withMsg(message: String): Error = Error(Some(message))
+      val withoutMsg: Error = Error(None)
     }
   }
 
@@ -88,8 +90,8 @@ object core {
           x.result match {
             case Ok         => loop(xs, acc)
             case Info(_)    => loop(xs, acc)
-            case Warning(_) => loop(xs, Warning(None))
-            case Error(_)   => Error(None)
+            case Warning(_) => loop(xs, Warning.withoutMsg)
+            case Error(_)   => Error.withoutMsg
           }
         case Nil => acc
       }
