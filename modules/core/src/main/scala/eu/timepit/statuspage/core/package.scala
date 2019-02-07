@@ -16,39 +16,11 @@
 
 package eu.timepit.statuspage
 
-import eu.timepit.statuspage.core.Item.{Entry, Group, JustShow}
 import eu.timepit.statuspage.core.Result.{Error, Info, Ok, Warning}
 
 import scala.annotation.tailrec
 
 package object core {
-
-  def rootAsPlainText(root: Root): String =
-    (overallAsPlainText(root.result) :: root.items.map(itemAsPlainText)).mkString("\n")
-
-  private def overallAsPlainText(overall: Result): String =
-    s"status: ${resultAsPlainText(overall)}"
-
-  private def itemAsPlainText(item: Item): String =
-    item match {
-      case Group(name, items, overall) =>
-        (overallAsPlainText(overall) :: items.map(itemAsPlainText))
-          .map(name + "_" + _)
-          .mkString("\n")
-      case Entry(name, result) => s"$name: ${resultAsPlainText(result)}"
-      case JustShow(wrapped)   => itemAsPlainText(wrapped)
-    }
-
-  private def resultAsPlainText(result: Result): String =
-    result match {
-      case Ok                    => "OK"
-      case Info(message)         => message
-      case Warning(maybeMessage) => appendWithSpace("WARNING", maybeMessage)
-      case Error(maybeMessage)   => appendWithSpace("ERROR", maybeMessage)
-    }
-
-  private def appendWithSpace(fst: String, maybeSnd: Option[String]): String =
-    maybeSnd.fold(fst)(snd => fst + " " + snd)
 
   /** Computes the overall result of `items`.
     *
@@ -72,5 +44,4 @@ package object core {
       }
     loop(items, Ok)
   }
-
 }

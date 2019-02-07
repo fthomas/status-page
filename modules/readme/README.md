@@ -14,7 +14,7 @@ status information in a straightforward way.
 import cats.effect.IO
 import eu.timepit.statuspage.cats.Make
 import eu.timepit.statuspage.core.Result.{Ok, Warning}
-import eu.timepit.statuspage.core.rootAsPlainText
+import eu.timepit.statuspage.core.plaintext
 
 // We use `IO` values for status checks, but the library supports any
 // type that is an `ApplicativeError`.
@@ -39,7 +39,7 @@ val root = mk.root(
     mk.entryOk("node2", sparkNode2)
   )
 )
-root.map(rootAsPlainText).unsafeRunSync()
+root.map(plaintext.renderRoot).unsafeRunSync()
 ```
 
 ## Using status-page

@@ -14,7 +14,7 @@ status information in a straightforward way.
 import cats.effect.IO
 import eu.timepit.statuspage.cats.Make
 import eu.timepit.statuspage.core.Result.{Ok, Warning}
-import eu.timepit.statuspage.core.rootAsPlainText
+import eu.timepit.statuspage.core.plaintext
 
 // We use `IO` values for status checks, but the library supports any
 // type that is an `ApplicativeError`.
@@ -26,7 +26,7 @@ val sparkNode2: IO[Unit] = IO.raiseError(new Exception("unreachable"))
 ```
 ```scala
 val mk = new Make[IO, Throwable](_.getMessage)
-// mk: eu.timepit.statuspage.cats.Make[cats.effect.IO,Throwable] = eu.timepit.statuspage.cats.Make@4a467ada
+// mk: eu.timepit.statuspage.cats.Make[cats.effect.IO,Throwable] = eu.timepit.statuspage.cats.Make@1f4fa465
 
 val root = mk.root(
   mk.entryInfo("uptime", uptime),
@@ -43,7 +43,7 @@ val root = mk.root(
 )
 // root: cats.effect.IO[eu.timepit.statuspage.core.Root] = <function1>
 
-root.map(rootAsPlainText).unsafeRunSync()
+root.map(plaintext.renderRoot).unsafeRunSync()
 // res2: String =
 // status: ERROR
 // uptime: up 2 weeks, 3 days, 13 hours, 27 minutes
