@@ -1,7 +1,7 @@
 addSbtPlugin("com.dwijnand" % "sbt-travisci" % "1.1.3")
 addSbtPlugin("com.geirsson" % "sbt-ci-release" % "1.2.1")
 addSbtPlugin("com.geirsson" % "sbt-scalafmt" % "1.5.1")
-addSbtPlugin("de.heikoseeberger" % "sbt-header" % "5.1.0")
+addSbtPlugin("de.heikoseeberger" % "sbt-header" % "5.2.0")
 addSbtPlugin("io.github.davidgregory084" % "sbt-tpolecat" % "0.1.5")
 addSbtPlugin("org.portable-scala" % "sbt-scalajs-crossproject" % "0.6.0")
 addSbtPlugin("org.portable-scala" % "sbt-scala-native-crossproject" % "0.6.0")
