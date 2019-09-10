@@ -90,7 +90,9 @@ lazy val metadataSettings = Def.settings(
       id = "fthomas",
       name = "Frank S. Thomas",
       email = "",
-      url("https://github.com/fthomas")))
+      url("https://github.com/fthomas")
+    )
+  )
 )
 
 lazy val noPublishSettings = Def.settings(

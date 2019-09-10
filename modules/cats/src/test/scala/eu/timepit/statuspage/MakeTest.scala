@@ -36,7 +36,9 @@ class MakeTest extends FunSuite with Matchers {
         mk.group(
           "database",
           mk.entryInfo("customers", Right("378")),
-          mk.entryInfo("items", Right("8934748"))))
+          mk.entryInfo("items", Right("8934748"))
+        )
+      )
       .map(renderRoot)
       .getOrElse("") shouldBe
       s"""|status: OK
@@ -51,8 +53,10 @@ class MakeTest extends FunSuite with Matchers {
         mk.group(
           "database",
           mk.entryInfo("customers", Right("378")),
-          mk.entryInfo("items", Right("8934748"))),
-        mk.entryOk("network", Left("timeout")))
+          mk.entryInfo("items", Right("8934748"))
+        ),
+        mk.entryOk("network", Left("timeout"))
+      )
       .map(renderRoot)
       .getOrElse("") shouldBe
       s"""|status: ERROR
@@ -64,8 +68,13 @@ class MakeTest extends FunSuite with Matchers {
   }
 
   test("mk.root 5") {
-    mk.root(mk.entry("database_items", Right(8934748))(i =>
-        if (i > 100) Info(i.toString) else Error.withMsg(i.toString)))
+    mk.root(
+        mk.entry("database_items", Right(8934748))(
+          i =>
+            if (i > 100) Info(i.toString)
+            else Error.withMsg(i.toString)
+        )
+      )
       .map(renderRoot)
       .getOrElse("") shouldBe
       s"""|status: OK
@@ -74,8 +83,13 @@ class MakeTest extends FunSuite with Matchers {
   }
 
   test("mk.root 6") {
-    mk.root(mk.entry("database_items", Right(42))(i =>
-        if (i > 100) Info(i.toString) else Error.withMsg(i.toString)))
+    mk.root(
+        mk.entry("database_items", Right(42))(
+          i =>
+            if (i > 100) Info(i.toString)
+            else Error.withMsg(i.toString)
+        )
+      )
       .map(renderRoot)
       .getOrElse("") shouldBe
       s"""|status: ERROR
