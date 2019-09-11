@@ -54,7 +54,7 @@ lazy val readme = project
     libraryDependencies ++= Seq(
       Dependencies.catsEffect
     ),
-    scalacOptions -= "-Ywarn-unused:imports",
+    scalacOptions --= Seq("-Ywarn-unused:imports", "-Wunused:imports"),
     tutSourceDirectory := baseDirectory.value,
     tutTargetDirectory := (LocalRootProject / baseDirectory).value
   )

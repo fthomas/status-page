@@ -26,7 +26,7 @@ val sparkNode2: IO[Unit] = IO.raiseError(new Exception("unreachable"))
 ```
 ```scala
 val mk = new Make[IO, Throwable](_.getMessage)
-// mk: eu.timepit.statuspage.cats.Make[cats.effect.IO,Throwable] = eu.timepit.statuspage.cats.Make@1f4fa465
+// mk: eu.timepit.statuspage.cats.Make[cats.effect.IO,Throwable] = eu.timepit.statuspage.cats.Make@12af9bd3
 
 val root = mk.root(
   mk.entryInfo("uptime", uptime),
@@ -44,7 +44,7 @@ val root = mk.root(
 // root: cats.effect.IO[eu.timepit.statuspage.core.Root] = <function1>
 
 root.map(plaintext.renderRoot).unsafeRunSync()
-// res2: String =
+// res0: String =
 // status: ERROR
 // uptime: up 2 weeks, 3 days, 13 hours, 27 minutes
 // database_status: WARNING
@@ -57,7 +57,7 @@ root.map(plaintext.renderRoot).unsafeRunSync()
 
 ## Using status-page
 
-The latest version of the library is available for Scala 2.12.
+The latest version of the library is available for Scala 2.12 and 2.13.
 
 If you're using sbt, add the following to your build:
 ```sbt
