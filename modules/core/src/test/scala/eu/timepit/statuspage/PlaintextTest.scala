@@ -42,8 +42,12 @@ class PlaintextTest extends FunSuite with Matchers {
           Group(
             "database",
             List(Entry("customers", Info("378")), Entry("items", Info("8934748"))),
-            Ok)),
-        Ok)) shouldBe
+            Ok
+          )
+        ),
+        Ok
+      )
+    ) shouldBe
       s"""|status: OK
           |database_status: OK
           |database_customers: 378
@@ -52,9 +56,9 @@ class PlaintextTest extends FunSuite with Matchers {
   }
 
   test("renderRoot 7") {
-    renderRoot(Root(
-      List(Group("database", List(Group("node1", Nil, Ok), Group("node2", Nil, Ok)), Ok)),
-      Ok)) shouldBe
+    renderRoot(
+      Root(List(Group("database", List(Group("node1", Nil, Ok), Group("node2", Nil, Ok)), Ok)), Ok)
+    ) shouldBe
       s"""|status: OK
           |database_status: OK
           |database_node1_status: OK
@@ -75,7 +79,8 @@ class PlaintextTest extends FunSuite with Matchers {
     val items = List(
       Entry("database1", Ok),
       Entry("database2", Warning.withMsg("slow")),
-      Entry("database3", Error.withMsg("unavailable")))
+      Entry("database3", Error.withMsg("unavailable"))
+    )
     renderRoot(Root(items, overallOf(items))) shouldBe
       s"""|status: ERROR
           |database1: OK
