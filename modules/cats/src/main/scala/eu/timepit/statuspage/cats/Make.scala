@@ -26,7 +26,6 @@ import eu.timepit.statuspage.core.Result.{Error, Info, Ok}
 import eu.timepit.statuspage.core.{overallOf, Item, Result, Root}
 
 final class Make[F[_], E](val showError: E => String)(implicit F: ApplicativeError[F, E]) {
-
   def root(items: F[Item]*): F[Root] =
     items.toList.sequence.map(xs => Root(xs, overallOf(xs)))
 
@@ -47,5 +46,4 @@ final class Make[F[_], E](val showError: E => String)(implicit F: ApplicativeErr
 
   def resultFromError(e: E): Result =
     Error.withMsg(showError(e))
-
 }
