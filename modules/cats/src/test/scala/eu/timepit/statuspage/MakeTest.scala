@@ -4,9 +4,10 @@ import _root_.cats.instances.either._
 import eu.timepit.statuspage.cats._
 import eu.timepit.statuspage.core.Result.{Error, Info}
 import eu.timepit.statuspage.core.plaintext.renderRoot
-import org.scalatest.{FunSuite, Matchers}
+import org.scalatest.funsuite.AnyFunSuite
+import org.scalatest.matchers.should.Matchers
 
-class MakeTest extends FunSuite with Matchers {
+class MakeTest extends AnyFunSuite with Matchers {
   type F[A] = Either[String, A]
   final val mk = new Make[F, String](identity)
 
