@@ -4,9 +4,10 @@ import eu.timepit.statuspage.core.Item.{Entry, Group, JustShow}
 import eu.timepit.statuspage.core.Result.{Error, Info, Ok, Warning}
 import eu.timepit.statuspage.core._
 import eu.timepit.statuspage.core.plaintext.renderRoot
-import org.scalatest.{FunSuite, Matchers}
+import org.scalatest.funsuite.AnyFunSuite
+import org.scalatest.matchers.should.Matchers
 
-class PlaintextTest extends FunSuite with Matchers {
+class PlaintextTest extends AnyFunSuite with Matchers {
   test("renderRoot 1") {
     renderRoot(Root(Nil, Ok)) shouldBe "status: OK"
   }
