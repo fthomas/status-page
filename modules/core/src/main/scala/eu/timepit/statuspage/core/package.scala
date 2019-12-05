@@ -21,6 +21,7 @@ import eu.timepit.statuspage.core.Result.{Error, Info, Ok, Warning}
 import scala.annotation.tailrec
 
 package object core {
+
   /** Computes the overall result of `items`.
     *
     * Returns
