@@ -70,10 +70,9 @@ class MakeTest extends AnyFunSuite with Matchers {
 
   test("mk.root 5") {
     mk.root(
-        mk.entry("database_items", Right(8934748))(
-          i =>
-            if (i > 100) Info(i.toString)
-            else Error.withMsg(i.toString)
+        mk.entry("database_items", Right(8934748))(i =>
+          if (i > 100) Info(i.toString)
+          else Error.withMsg(i.toString)
         )
       )
       .map(renderRoot)
@@ -85,10 +84,9 @@ class MakeTest extends AnyFunSuite with Matchers {
 
   test("mk.root 6") {
     mk.root(
-        mk.entry("database_items", Right(42))(
-          i =>
-            if (i > 100) Info(i.toString)
-            else Error.withMsg(i.toString)
+        mk.entry("database_items", Right(42))(i =>
+          if (i > 100) Info(i.toString)
+          else Error.withMsg(i.toString)
         )
       )
       .map(renderRoot)
