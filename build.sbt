@@ -59,7 +59,7 @@ lazy val commonSettings = Def.settings(
 )
 
 lazy val compileSettings = Def.settings(
-  )
+)
 
 lazy val metadataSettings = Def.settings(
   name := projectName,
