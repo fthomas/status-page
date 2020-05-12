@@ -29,7 +29,9 @@ class PlaintextTest extends AnyFunSuite with Matchers {
   }
 
   test("renderRoot 5") {
-    renderRoot(Root(List(Entry("database_status", Ok), Entry("elastic_search_status", Ok)), Ok)) shouldBe
+    renderRoot(
+      Root(List(Entry("database_status", Ok), Entry("elastic_search_status", Ok)), Ok)
+    ) shouldBe
       s"""|status: OK
           |database_status: OK
           |elastic_search_status: OK
