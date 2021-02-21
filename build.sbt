@@ -8,7 +8,7 @@ val groupId = "eu.timepit"
 val projectName = "status-page"
 val gitHubOwner = "fthomas"
 
-val Scala_2_12 = "2.12.10"
+val Scala_2_12 = "2.12.13"
 val Scala_2_13 = "2.13.1"
 
 val moduleCrossPlatformMatrix = Map(
