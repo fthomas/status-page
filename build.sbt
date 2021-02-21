@@ -8,10 +8,40 @@ val groupId = "eu.timepit"
 val projectName = "status-page"
 val gitHubOwner = "fthomas"
 
+val Scala_2_12 = "2.12.10"
+val Scala_2_13 = "2.13.1"
+
 val moduleCrossPlatformMatrix = Map(
   "cats" -> List(JVMPlatform),
   "core" -> List(JVMPlatform)
 )
+
+/// sbt-github-actions configuration
+
+ThisBuild / crossScalaVersions := Seq(Scala_2_12, Scala_2_13)
+ThisBuild / githubWorkflowTargetTags ++= Seq("v*")
+ThisBuild / githubWorkflowPublishTargetBranches := Seq(
+  RefPredicate.Equals(Ref.Branch("master")),
+  RefPredicate.StartsWith(Ref.Tag("v"))
+)
+ThisBuild / githubWorkflowPublish := Seq(
+  WorkflowStep.Run(
+    List("sbt ci-release"),
+    name = Some("Publish JARs"),
+    env = Map(
+      "PGP_PASSPHRASE" -> "${{ secrets.PGP_PASSPHRASE }}",
+      "PGP_SECRET" -> "${{ secrets.PGP_SECRET }}",
+      "SONATYPE_PASSWORD" -> "${{ secrets.SONATYPE_PASSWORD }}",
+      "SONATYPE_USERNAME" -> "${{ secrets.SONATYPE_USERNAME }}"
+    )
+  )
+)
+ThisBuild / githubWorkflowJavaVersions := Seq("adopt@1.8")
+ThisBuild / githubWorkflowBuild :=
+  Seq(
+    WorkflowStep.Sbt(List("validate"), name = Some("Build project")),
+    WorkflowStep.Use(UseRef.Public("codecov", "codecov-action", "v1"), name = Some("Codecov"))
+  )
 
 /// projects
 
@@ -59,6 +89,8 @@ lazy val commonSettings = Def.settings(
 )
 
 lazy val compileSettings = Def.settings(
+  scalaVersion := Scala_2_13,
+  crossScalaVersions := List(Scala_2_12, Scala_2_13)
 )
 
 lazy val metadataSettings = Def.settings(
