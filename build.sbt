@@ -10,6 +10,7 @@ val gitHubOwner = "fthomas"
 
 val Scala_2_12 = "2.12.10"
 val Scala_2_13 = "2.13.1"
+val Scala_3 = "3.0.0-RC1"
 
 val moduleCrossPlatformMatrix = Map(
   "cats" -> List(JVMPlatform),
@@ -18,7 +19,7 @@ val moduleCrossPlatformMatrix = Map(
 
 /// sbt-github-actions configuration
 
-ThisBuild / crossScalaVersions := Seq(Scala_2_12, Scala_2_13)
+ThisBuild / crossScalaVersions := Seq(Scala_2_12, Scala_2_13, Scala_3)
 ThisBuild / githubWorkflowTargetTags ++= Seq("v*")
 ThisBuild / githubWorkflowPublishTargetBranches := Seq(
   RefPredicate.Equals(Ref.Branch("master")),
@@ -90,7 +91,7 @@ lazy val commonSettings = Def.settings(
 
 lazy val compileSettings = Def.settings(
   scalaVersion := Scala_2_13,
-  crossScalaVersions := List(Scala_2_12, Scala_2_13)
+  crossScalaVersions := List(Scala_2_12, Scala_2_13, Scala_3)
 )
 
 lazy val metadataSettings = Def.settings(
