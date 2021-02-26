@@ -57,7 +57,7 @@ root.map(plaintext.renderRoot).unsafeRunSync()
 
 ## Using status-page
 
-The latest version of the library is available for Scala 2.12 and 2.13.
+The latest version of the library is available for Scala 2.12, 2.13, and 3.
 
 If you're using sbt, add the following to your build:
 ```sbt
