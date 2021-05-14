@@ -10,7 +10,7 @@ val gitHubOwner = "fthomas"
 
 val Scala_2_12 = "2.12.13"
 val Scala_2_13 = "2.13.5"
-val Scala_3 = "3.0.0-RC1"
+val Scala_3 = "3.0.0-RC3"
 
 val moduleCrossPlatformMatrix = Map(
   "cats" -> List(JVMPlatform),
@@ -112,7 +112,7 @@ lazy val metadataSettings = Def.settings(
 )
 
 lazy val noPublishSettings = Def.settings(
-  skip in publish := true
+  publish / skip := true
 )
 
 lazy val scaladocSettings = Def.settings(
