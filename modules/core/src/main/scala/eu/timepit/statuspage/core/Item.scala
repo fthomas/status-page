@@ -29,11 +29,10 @@ object Item {
 
   final case class Entry(name: String, result: Result) extends Item
 
-  /** An [[Item]] which wraps another [[Item]] but always returns
-    * [[Result.Ok Ok]] as result.
+  /** An [[Item]] which wraps another [[Item]] but always returns [[Result.Ok Ok]] as result.
     *
-    * This can be used to render the wrapped [[Item]] but ignoring its status
-    * for the overall result.
+    * This can be used to render the wrapped [[Item]] but ignoring its status for the overall
+    * result.
     */
   final case class JustShow(wrapped: Item) extends Item {
     override def result: Result = Ok

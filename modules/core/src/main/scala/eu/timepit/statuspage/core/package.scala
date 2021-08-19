@@ -25,9 +25,9 @@ package object core {
   /** Computes the overall result of `items`.
     *
     * Returns
-    *  - `Ok`      if `items` contains no `Warning` or `Error`
-    *  - `Warning` if `items` contains at least one `Warning` and no `Error`
-    *  - `Error`   if `items` contains at least one `Error`
+    *   - `Ok` if `items` contains no `Warning` or `Error`
+    *   - `Warning` if `items` contains at least one `Warning` and no `Error`
+    *   - `Error` if `items` contains at least one `Error`
     */
   def overallOf(items: List[Item]): Result = {
     @tailrec
