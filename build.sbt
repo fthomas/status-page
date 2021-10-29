@@ -142,9 +142,9 @@ addCommandsAlias(
     "scalafmtCheck",
     "scalafmtSbtCheck",
     "test:scalafmtCheck",
-    //"coverage",
+    // "coverage",
     "test",
-    //"coverageReport",
+    // "coverageReport",
     "doc",
     "package",
     "packageSrc"
