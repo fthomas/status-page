@@ -9,7 +9,7 @@ val projectName = "status-page"
 val gitHubOwner = "fthomas"
 
 val Scala_2_12 = "2.12.15"
-val Scala_2_13 = "2.13.7"
+val Scala_2_13 = "2.13.8"
 val Scala_3 = "3.1.0"
 
 val moduleCrossPlatformMatrix = Map(
