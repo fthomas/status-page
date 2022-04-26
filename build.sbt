@@ -43,6 +43,7 @@ ThisBuild / githubWorkflowBuild :=
     WorkflowStep.Sbt(List("validate"), name = Some("Build project")),
     WorkflowStep.Use(UseRef.Public("codecov", "codecov-action", "v1"), name = Some("Codecov"))
   )
+ThisBuild / mergifyStewardConfig := Some(MergifyStewardConfig(mergeMinors = true))
 
 /// projects
 
