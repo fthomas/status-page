@@ -14,4 +14,4 @@ addSbtPlugin("org.scalameta" % "sbt-scalafmt" % "2.4.6")
 
 addSbtPlugin("org.scoverage" % "sbt-scoverage" % "1.9.3")
 
-addSbtPlugin("org.typelevel" % "sbt-typelevel-mergify" % "0.4.9")
+addSbtPlugin("org.typelevel" % "sbt-typelevel-mergify" % "0.4.12")
