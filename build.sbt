@@ -1,4 +1,4 @@
-import com.typesafe.sbt.SbtGit.GitKeys
+import com.github.sbt.git.SbtGit.GitKeys
 import sbtcrossproject.{CrossProject, CrossType}
 import org.typelevel.sbt.gha.JavaSpec.Distribution.Temurin
 
