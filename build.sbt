@@ -41,7 +41,7 @@ ThisBuild / githubWorkflowJavaVersions := Seq(JavaSpec(Temurin, "8"))
 ThisBuild / githubWorkflowBuild :=
   Seq(
     WorkflowStep.Sbt(List("validate"), name = Some("Build project")),
-    WorkflowStep.Use(UseRef.Public("codecov", "codecov-action", "v1"), name = Some("Codecov"))
+    WorkflowStep.Use(UseRef.Public("codecov", "codecov-action", "v3"), name = Some("Codecov"))
   )
 ThisBuild / mergifyStewardConfig := Some(MergifyStewardConfig(mergeMinors = true))
 
@@ -143,9 +143,9 @@ addCommandsAlias(
     "scalafmtCheck",
     "scalafmtSbtCheck",
     "test:scalafmtCheck",
-    // "coverage",
+    "coverage",
     "test",
-    // "coverageReport",
+    "coverageReport",
     "doc",
     "package",
     "packageSrc"
