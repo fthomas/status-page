@@ -59,7 +59,7 @@ lazy val cats = myCrossProject("cats")
   .settings(
     libraryDependencies ++= Seq(
       Dependencies.catsCore,
-      Dependencies.scalatest % Test
+      Dependencies.munit % Test
     )
   )
 
@@ -68,7 +68,7 @@ lazy val catsJVM = cats.jvm
 lazy val core = myCrossProject("core")
   .settings(
     libraryDependencies ++= Seq(
-      Dependencies.scalatest % Test
+      Dependencies.munit % Test
     )
   )
 
