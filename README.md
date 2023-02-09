@@ -1,5 +1,5 @@
 # status-page
-[![GitHub Workflow Status](https://img.shields.io/github/workflow/status/fthomas/status-page/Continuous%20Integration)](https://github.com/fthomas/status-page/actions?query=workflow%3A%22Continuous+Integration%22)
+[![Continuous Integration](https://github.com/fthomas/status-page/actions/workflows/ci.yml/badge.svg)](https://github.com/fthomas/status-page/actions/workflows/ci.yml)
 [![codecov](https://codecov.io/gh/fthomas/status-page/branch/master/graph/badge.svg)](https://codecov.io/gh/fthomas/status-page)
 [![Scaladex](https://index.scala-lang.org/fthomas/status-page/latest.svg?color=blue)](https://index.scala-lang.org/fthomas/status-page/status-page-core)
 [![Scaladoc](https://www.javadoc.io/badge/eu.timepit/status-page-core_2.12.svg?color=blue&label=Scaladoc)](https://javadoc.io/doc/eu.timepit/status-page-core_2.12)
