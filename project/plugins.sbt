@@ -2,7 +2,7 @@ addSbtPlugin("com.github.sbt" % "sbt-ci-release" % "1.5.12")
 
 addSbtPlugin("de.heikoseeberger" % "sbt-header" % "5.10.0")
 
-addSbtPlugin("io.github.davidgregory084" % "sbt-tpolecat" % "0.4.3")
+addSbtPlugin("io.github.davidgregory084" % "sbt-tpolecat" % "0.4.4")
 
 addSbtPlugin("org.portable-scala" % "sbt-scalajs-crossproject" % "1.3.2")
 
