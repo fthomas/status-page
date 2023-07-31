@@ -43,7 +43,21 @@ ThisBuild / githubWorkflowBuild :=
     WorkflowStep.Sbt(List("validate"), name = Some("Build project")),
     WorkflowStep.Use(UseRef.Public("codecov", "codecov-action", "v3"), name = Some("Codecov"))
   )
-ThisBuild / mergifyStewardConfig := Some(MergifyStewardConfig(mergeMinors = true))
+ThisBuild / mergifyPrRules := {
+  val authorCondition = MergifyCondition.Custom("author=scala-steward")
+  Seq(
+    MergifyPrRule(
+      "label scala-steward's PRs",
+      List(authorCondition),
+      List(MergifyAction.Label(List("dependency-update")))
+    ),
+    MergifyPrRule(
+      "merge scala-steward's PRs",
+      List(authorCondition) ++ mergifySuccessConditions.value,
+      List(MergifyAction.Merge(Some("squash")))
+    )
+  )
+}
 
 /// projects
 
