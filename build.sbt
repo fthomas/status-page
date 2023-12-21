@@ -44,7 +44,12 @@ ThisBuild / githubWorkflowBuild :=
     WorkflowStep.Use(UseRef.Public("codecov", "codecov-action", "v3"), name = Some("Codecov"))
   )
 ThisBuild / mergifyPrRules := {
-  val authorCondition = MergifyCondition.Custom("author=scala-steward")
+  val authorCondition = MergifyCondition.Or(
+    List(
+      MergifyCondition.Custom("author=scala-steward"),
+      MergifyCondition.Custom("author=scala-steward[bot]")
+    )
+  )
   Seq(
     MergifyPrRule(
       "label scala-steward's PRs",
@@ -54,7 +59,7 @@ ThisBuild / mergifyPrRules := {
     MergifyPrRule(
       "merge scala-steward's PRs",
       List(authorCondition) ++ mergifySuccessConditions.value,
-      List(MergifyAction.Merge(Some("squash")))
+      List(MergifyAction.Merge(Some("merge")))
     )
   )
 }
