@@ -10,7 +10,7 @@ val gitHubOwner = "fthomas"
 
 val Scala_2_12 = "2.12.19"
 val Scala_2_13 = "2.13.13"
-val Scala_3 = "3.3.1"
+val Scala_3 = "3.3.3"
 
 val moduleCrossPlatformMatrix = Map(
   "cats" -> List(JVMPlatform),
