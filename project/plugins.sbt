@@ -12,6 +12,6 @@ addSbtPlugin("org.scala-js" % "sbt-scalajs" % "1.16.0")
 
 addSbtPlugin("org.scalameta" % "sbt-scalafmt" % "2.5.2")
 
-addSbtPlugin("org.scoverage" % "sbt-scoverage" % "2.0.12")
+addSbtPlugin("org.scoverage" % "sbt-scoverage" % "2.1.0")
 
 addSbtPlugin("org.typelevel" % "sbt-typelevel-mergify" % "0.7.1")
