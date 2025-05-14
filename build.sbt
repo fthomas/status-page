@@ -37,6 +37,7 @@ ThisBuild / githubWorkflowPublish := Seq(
     )
   )
 )
+ThisBuild / sonatypeCredentialHost := xerial.sbt.Sonatype.sonatypeCentralHost
 ThisBuild / githubWorkflowJavaVersions := Seq(JavaSpec(Temurin, "8"))
 ThisBuild / githubWorkflowBuild :=
   Seq(
